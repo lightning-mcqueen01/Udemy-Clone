@@ -1,6 +1,7 @@
 package com.project.Kdemy.controller;
 
 import com.project.Kdemy.dto.ProgressRequestDto;
+import com.project.Kdemy.service.LectureProgressService;
 import com.project.Kdemy.service.ServiceImpl.LectureProgressServiceImpl;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -9,12 +10,12 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/progress")
+@RequestMapping("/progress")
 @PreAuthorize("hasRole('STUDENT')")
 @AllArgsConstructor
 public class ProgressController {
 
-    private final LectureProgressServiceImpl progressService;
+    private final LectureProgressService progressService;
 
     @PostMapping("/{lectureId}")
     public ResponseEntity<?> update(

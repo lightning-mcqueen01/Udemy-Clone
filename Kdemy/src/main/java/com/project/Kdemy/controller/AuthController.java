@@ -4,6 +4,7 @@ import com.project.Kdemy.dto.AuthResponseDto;
 import com.project.Kdemy.dto.LoginRequestDto;
 import com.project.Kdemy.dto.SignupRequest;
 import com.project.Kdemy.model.User;
+import com.project.Kdemy.service.AuthService;
 import com.project.Kdemy.service.ServiceImpl.AuthServiceImpl;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -17,7 +18,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 public class AuthController {
-    private final AuthServiceImpl authService;
+    private final AuthService authService;
 
 
     @PostMapping("/signup")
@@ -38,5 +39,7 @@ public class AuthController {
     public ResponseEntity<List<User>> getusers() {
         return ResponseEntity.ok(authService.usersInfo());
     }
+
+
 }
 

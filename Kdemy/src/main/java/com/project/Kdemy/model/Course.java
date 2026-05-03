@@ -26,7 +26,7 @@ public class Course {
     @Column(length = 5000)
     private String description;
 
-    private BigDecimal price;
+    private Double price;
 
     private String thumbnailUrl;
 

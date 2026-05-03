@@ -12,7 +12,7 @@ function Register() {
 
   const submitHandler = async (e) => {
     e.preventDefault();
-    await axios.post("/auth/register", form);
+    await axios.post("/auth/signup", form);
     alert("Registration successful");
   };
 

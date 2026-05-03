@@ -1,10 +1,12 @@
 package com.project.Kdemy.service.ServiceImpl;
 
 import com.project.Kdemy.dto.CourseRequestDto;
+import com.project.Kdemy.exception.ResourceNotFoundException;
 import com.project.Kdemy.model.Category;
 import com.project.Kdemy.model.Course;
 import com.project.Kdemy.model.CourseStatus;
 import com.project.Kdemy.model.User;
+import com.project.Kdemy.repository.CategoryRepository;
 import com.project.Kdemy.repository.CourseRepository;
 import com.project.Kdemy.repository.UserRepository;
 import com.project.Kdemy.service.CourseService;
@@ -23,13 +25,14 @@ public class CourseServiceImpl implements CourseService {
 
     private final UserRepository userRepository;
     private final CourseRepository courseRepository;
+    private final CategoryRepository categoryRepository;
 
     @Override
     public Course CreateCourse(CourseRequestDto req, String email) {
 
-        User instructor = userRepository.findByEmail(email).orElseThrow(()-> new RuntimeException("instructor not found"));
+        User instructor = userRepository.findByEmail(email).orElseThrow(()-> new ResourceNotFoundException("instructor not found"));
 
-        Category category = courseRepository.findById(req.getCategoryId()).orElseThrow(() -> new RuntimeException("")).getCategory();
+        Category category = categoryRepository.findById(req.getCategoryId()).orElseThrow(() -> new ResourceNotFoundException("category not found"));
 
         Course course = new Course();
         course.setTitle(req.getTitle());
@@ -38,6 +41,7 @@ public class CourseServiceImpl implements CourseService {
         course.setCategory(category);
         course.setInstructor(instructor);
         course.setStatus(CourseStatus.DRAFT);
+        course.setThumbnailUrl("hello");
         course.setCreatedAt(LocalDateTime.now());
 
         return courseRepository.save(course);
@@ -50,7 +54,7 @@ public class CourseServiceImpl implements CourseService {
 
     public void publishCourse(Long courseId) {
 
-        Course course = courseRepository.findById(courseId).orElseThrow(() -> new RuntimeException("course not found"));
+        Course course = courseRepository.findById(courseId).orElseThrow(() -> new ResourceNotFoundException("course not found"));
 
         course.setStatus(CourseStatus.PUBLISHED);
 

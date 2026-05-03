@@ -1,14 +1,15 @@
 package com.project.Kdemy.controller;
 
+import com.project.Kdemy.model.Course;
+import com.project.Kdemy.service.EnrollmentService;
 import com.project.Kdemy.service.ServiceImpl.EnrollmentServiceImpl;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/enrollment")
@@ -16,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 @AllArgsConstructor
 public class EnrollmentController {
 
-    private final EnrollmentServiceImpl enrollmentService;
+    private final EnrollmentService enrollmentService;
 
     @PostMapping("/{courseId}")
     public ResponseEntity<?> enroll(
@@ -25,6 +26,13 @@ public class EnrollmentController {
 
         return ResponseEntity.ok(
                 enrollmentService.enroll(courseId, auth.getName())
+        );
+    }
+
+    @GetMapping("/my-courses")
+    public ResponseEntity<List<Course>> getMyCourses(Authentication auth) {
+        return ResponseEntity.ok(
+                enrollmentService.getMyCourses(auth.getName())
         );
     }
 }

@@ -13,7 +13,7 @@ public class CourseRequestDto {
 
     private String description;
 
-    private BigDecimal price;
+    private Double price;
 
     private Long categoryId;
 }

@@ -4,16 +4,16 @@ import com.project.Kdemy.model.Course;
 import com.project.Kdemy.model.CourseStatus;
 import org.jspecify.annotations.Nullable;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import java.awt.print.Pageable;
 import java.util.List;
 
 public interface CourseRepository extends JpaRepository<Course, Long> {
 
     @Nullable List<Course> findByStatus(CourseStatus status);
 
-    Page<Course> findByTitleContainingIgnoreCaseAndPublishedTrue(
-            String keyword, Pageable pageable);
+//    Page<Course> findByTitleContainingIgnoreCaseAndPublishedTrue(
+//            String keyword, Pageable pageable);
 
 }

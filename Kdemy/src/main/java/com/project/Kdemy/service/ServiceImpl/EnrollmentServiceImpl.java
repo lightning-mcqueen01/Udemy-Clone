@@ -1,5 +1,7 @@
 package com.project.Kdemy.service.ServiceImpl;
 
+import com.project.Kdemy.exception.AlreadyExistsException;
+import com.project.Kdemy.exception.ResourceNotFoundException;
 import com.project.Kdemy.model.Course;
 import com.project.Kdemy.model.Enrollment;
 import com.project.Kdemy.repository.CourseRepository;
@@ -10,6 +12,7 @@ import lombok.Data;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 @Data
@@ -23,11 +26,11 @@ public class EnrollmentServiceImpl implements EnrollmentService {
     public Enrollment enroll(Long courseId, String studentEmail) {
 
         Course course = courseRepo.findById(courseId).orElseThrow(
-                () -> new RuntimeException("Course not found")
+                () -> new ResourceNotFoundException("Course not found")
         );
 
         if(enrollmentRepo.existsByStudentEmailAndCourseId(studentEmail, courseId)){
-            throw new RuntimeException(("Already enrolled"));
+            throw new AlreadyExistsException(("Already enrolled"));
         };
 
         Enrollment enrollment = new Enrollment();
@@ -35,5 +38,14 @@ public class EnrollmentServiceImpl implements EnrollmentService {
         enrollment.setCourse(course);
         enrollment.setEnrolledAt(LocalDateTime.now());
         return enrollmentRepo.save(enrollment);
+    }
+
+    @Override
+    public List<Course> getMyCourses(String studentEmail) {
+
+        return enrollmentRepo.findByStudentEmail(studentEmail)
+                .stream()
+                .map(Enrollment::getCourse)
+                .toList();
     }
 }

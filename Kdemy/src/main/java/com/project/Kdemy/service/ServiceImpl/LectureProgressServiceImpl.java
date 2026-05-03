@@ -1,5 +1,6 @@
 package com.project.Kdemy.service.ServiceImpl;
 
+import com.project.Kdemy.exception.ResourceNotFoundException;
 import com.project.Kdemy.model.Lecture;
 import com.project.Kdemy.model.LectureProgress;
 import com.project.Kdemy.repository.LectureProgressRepository;
@@ -25,7 +26,7 @@ public class LectureProgressServiceImpl implements LectureProgressService {
             boolean completed) {
 
         Lecture lecture = lectureRepo.findById(lectureId)
-                .orElseThrow(() -> new RuntimeException("Lecture not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Lecture not found"));
 
         LectureProgress progress = progressRepo
                 .findByStudentEmailAndLectureId(studentEmail, lectureId)

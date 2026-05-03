@@ -1,6 +1,7 @@
 package com.project.Kdemy.service.ServiceImpl;
 
 import com.project.Kdemy.dto.ReviewRequestDto;
+import com.project.Kdemy.exception.ResourceNotFoundException;
 import com.project.Kdemy.model.Course;
 import com.project.Kdemy.model.Review;
 import com.project.Kdemy.repository.CourseRepository;
@@ -22,7 +23,7 @@ public class ReviewServiceImpl implements ReviewService {
     public Review addReview(Long courseId, ReviewRequestDto dto, String email) {
 
         Course course = courseRepo.findById(courseId)
-                .orElseThrow(() -> new RuntimeException("Course not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Course not found"));
 
         Review review = new Review();
         review.setCourse(course);
