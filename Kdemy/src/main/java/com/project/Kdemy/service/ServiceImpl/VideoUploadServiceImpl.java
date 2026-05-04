@@ -17,6 +17,9 @@ public class VideoUploadServiceImpl implements VideoUploadService {
     @Value("${file.upload-dir}")
     private String uploadDir;
 
+    @Value("${app.base-url}")
+    private String baseUrl;
+
     @Override
     public String uploadVideo(MultipartFile file) throws IOException {
 
@@ -26,6 +29,6 @@ public class VideoUploadServiceImpl implements VideoUploadService {
         Files.createDirectories(path.getParent());
         Files.write(path, file.getBytes());
 
-        return "/videos/" + filename;
+        return baseUrl + "/videos/" + filename;
     }
 }

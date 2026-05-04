@@ -1,6 +1,7 @@
 package com.project.Kdemy.controller;
 
 import com.project.Kdemy.dto.LectureRequestDto;
+import com.project.Kdemy.dto.LectureResponseDto;
 import com.project.Kdemy.model.Lecture;
 import com.project.Kdemy.repository.LectureRepository;
 import com.project.Kdemy.service.LectureService;
@@ -29,18 +30,25 @@ public class LectureController {
 
     @PostMapping("/section/{sectionId}")
     @PreAuthorize("hasRole('INSTRUCTOR')")
-    public ResponseEntity<?> createLecture(
+    public ResponseEntity<LectureResponseDto> createLecture(
             @PathVariable Long sectionId,
             @RequestBody LectureRequestDto req) {
 
-        return ResponseEntity.ok(
-                lectureService.createLecture(sectionId, req)
-        );
+        Lecture lecture = lectureService.createLecture(sectionId, req);
+
+        LectureResponseDto res = new LectureResponseDto();
+        res.setId(lecture.getId());
+        res.setTitle(lecture.getTitle());
+        res.setDuration(lecture.getDuration());
+        res.setSectionId(sectionId);
+        res.setSectionTitle(lecture.getSection().getTitle());
+
+        return ResponseEntity.ok(res);
     }
 
     @PostMapping("/{lectureId}/upload")
     @PreAuthorize("hasRole('INSTRUCTOR')")
-    public ResponseEntity<?> uploadVideo(
+    public ResponseEntity<LectureResponseDto> uploadVideo(
             @PathVariable Long lectureId,
             @RequestParam("file") MultipartFile file) throws IOException {
 
@@ -48,21 +56,52 @@ public class LectureController {
 
         Lecture lecture = lectureRepository.findById(lectureId).orElseThrow();
         lecture.setVideoUrl(url);
+        lectureRepository.save(lecture);
 
-        return ResponseEntity.ok(lectureRepository.save(lecture));
+        LectureResponseDto res = new LectureResponseDto();
+        res.setId(lecture.getId());
+        res.setTitle(lecture.getTitle());
+        res.setVideoUrl(lecture.getVideoUrl());
+        res.setDuration(lecture.getDuration());
+        res.setSectionId(lecture.getSection().getId());
+        res.setSectionTitle(lecture.getSection().getTitle());
+
+        return ResponseEntity.ok(res);
     }
 
     @GetMapping("/section/{sectionId}")
     @PreAuthorize("hasRole('INSTRUCTOR')")
-    public ResponseEntity<List<Lecture>> getLectureBySection(@PathVariable Long sectionId, Authentication auth) {
+    public ResponseEntity<List<LectureResponseDto>> getLectureBySection(@PathVariable Long sectionId, Authentication auth) {
 
-        return ResponseEntity.ok(lectureService.getLectureByService(sectionId, auth.getName()));
+        List<Lecture> lectures = lectureService.getLectureByService(sectionId, auth.getName());
+
+        List<LectureResponseDto> lectureDto =  lectures.stream().map(lecture -> new LectureResponseDto(
+            lecture.getId(),
+                lecture.getTitle(),
+                lecture.getVideoUrl(),
+                lecture.getDuration(),
+                lecture.getSection().getId(),
+                lecture.getSection().getTitle()
+        )).toList();
+
+        return ResponseEntity.ok(lectureDto);
     }
 
     @GetMapping("/{lectureId}")
     @PreAuthorize("hasRole('INSTRUCTOR')")
-    public ResponseEntity<Lecture> getLecture(@PathVariable Long lectureId, Authentication auth) {
+    public ResponseEntity<LectureResponseDto> getLecture(@PathVariable Long lectureId, Authentication auth) {
 
-        return ResponseEntity.ok(lectureService.getLecture(lectureId, auth.getName()));
+        Lecture lecture = lectureService.getLecture(lectureId, auth.getName());
+
+        LectureResponseDto response = new LectureResponseDto(
+                lecture.getId(),
+                lecture.getTitle(),
+                lecture.getVideoUrl(),
+                lecture.getDuration(),
+                lecture.getSection().getId(),
+                lecture.getSection().getTitle()
+        );
+
+        return ResponseEntity.ok(response);
     }
 }
