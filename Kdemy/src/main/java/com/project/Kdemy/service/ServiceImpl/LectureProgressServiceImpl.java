@@ -34,7 +34,11 @@ public class LectureProgressServiceImpl implements LectureProgressService {
     public LectureProgress updateProgress(
             Long lectureId,
             String studentEmail,
+<<<<<<< HEAD
             Long watchedSeconds,
+=======
+            int watchedSeconds,
+>>>>>>> c85368aab4ccea7364855d8cb229bc169ca3ef19
             boolean completed) {
 
         Lecture lecture = lectureRepo.findById(lectureId)
@@ -167,14 +171,24 @@ public class LectureProgressServiceImpl implements LectureProgressService {
                     dto.setCompleted(progress.isCompleted());
 
                     // Calculate progress percentage
+<<<<<<< HEAD
                     if (lecture.getDuration() != 0 && lecture.getDuration() > 0) {
                         int percentage = (int) ((progress.getWatchedSeconds() * 100)
                                 / lecture.getDuration());
+=======
+                    if (lecture.getDuration() != null && lecture.getDuration() > 0) {
+                        int percentage = (progress.getWatchedSeconds() * 100)
+                                / lecture.getDuration().intValue();
+>>>>>>> c85368aab4ccea7364855d8cb229bc169ca3ef19
                         dto.setProgressPercentage(Math.min(percentage, 100));
                     }
                 } else {
                     // No progress yet
+<<<<<<< HEAD
                     dto.setWatchedSeconds(0L);
+=======
+                    dto.setWatchedSeconds(0);
+>>>>>>> c85368aab4ccea7364855d8cb229bc169ca3ef19
                     dto.setCompleted(false);
                     dto.setProgressPercentage(0);
                 }
@@ -207,6 +221,7 @@ public class LectureProgressServiceImpl implements LectureProgressService {
             dto.setWatchedSeconds(progress.getWatchedSeconds());
             dto.setCompleted(progress.isCompleted());
 
+<<<<<<< HEAD
             if (lecture.getDuration() != 0 && lecture.getDuration() > 0) {
                 int percentage = (int) ((progress.getWatchedSeconds() * 100)
                         / lecture.getDuration());
@@ -214,6 +229,15 @@ public class LectureProgressServiceImpl implements LectureProgressService {
             }
         } else {
             dto.setWatchedSeconds(0L);
+=======
+            if (lecture.getDuration() != null && lecture.getDuration() > 0) {
+                int percentage = (progress.getWatchedSeconds() * 100)
+                        / lecture.getDuration().intValue();
+                dto.setProgressPercentage(Math.min(percentage, 100));
+            }
+        } else {
+            dto.setWatchedSeconds(0);
+>>>>>>> c85368aab4ccea7364855d8cb229bc169ca3ef19
             dto.setCompleted(false);
             dto.setProgressPercentage(0);
         }

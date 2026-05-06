@@ -1,7 +1,10 @@
 package com.project.Kdemy.controller;
 
 import com.project.Kdemy.dto.CourseRequestDto;
+<<<<<<< HEAD
 import com.project.Kdemy.dto.CourseResponseDto;
+=======
+>>>>>>> c85368aab4ccea7364855d8cb229bc169ca3ef19
 import com.project.Kdemy.model.Course;
 import com.project.Kdemy.service.CourseService;
 import com.project.Kdemy.service.ServiceImpl.CourseServiceImpl;
@@ -13,7 +16,10 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+<<<<<<< HEAD
 import java.util.stream.Collectors;
+=======
+>>>>>>> c85368aab4ccea7364855d8cb229bc169ca3ef19
 
 @RestController
 @RequestMapping("/courses")
@@ -26,12 +32,17 @@ public class CourseController {
 
     @PostMapping("/create")
     @PreAuthorize("hasRole('INSTRUCTOR')")
+<<<<<<< HEAD
     public ResponseEntity<CourseResponseDto> createCourse(@RequestBody CourseRequestDto req, Authentication authentication) {
+=======
+    public ResponseEntity<Course> createCourse(@RequestBody CourseRequestDto req, Authentication authentication) {
+>>>>>>> c85368aab4ccea7364855d8cb229bc169ca3ef19
 
         System.out.println(authentication.getName());
         System.out.println(authentication.getDetails());
 
         Course course = courseService.CreateCourse(req, authentication.getName());
+<<<<<<< HEAD
 
         CourseResponseDto res = new CourseResponseDto(
                 course.getId(),
@@ -57,6 +68,14 @@ public class CourseController {
                         course.getInstructor().getUsername(),
                         course.getCreatedAt()
                 )).collect(Collectors.toList()));
+=======
+        return ResponseEntity.ok(course);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<Course>> getAllPublishedCourse() {
+        return ResponseEntity.ok(courseService.getAllCourses());
+>>>>>>> c85368aab4ccea7364855d8cb229bc169ca3ef19
     }
 
     @PutMapping("/{courseId}/publish")

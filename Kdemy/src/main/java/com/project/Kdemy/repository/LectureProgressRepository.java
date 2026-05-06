@@ -22,7 +22,11 @@ public interface LectureProgressRepository extends JpaRepository<LectureProgress
     );
 
     // to get last watched lecture in a course
+<<<<<<< HEAD
     @Query("SELECT lp FROM LectureProgress lp " +
+=======
+    @Query("SELECT lp FROM LectureProgress lp" +
+>>>>>>> c85368aab4ccea7364855d8cb229bc169ca3ef19
             "WHERE lp.studentEmail = :email " +
             "AND lp.lecture.section.course.id = :courseId " +
             "ORDER BY lp.lastWatchedAt DESC")
@@ -33,11 +37,20 @@ public interface LectureProgressRepository extends JpaRepository<LectureProgress
 
 
     // count all the completed lectures in a course
+<<<<<<< HEAD
     @Query("SELECT COUNT(lp) FROM LectureProgress lp " +
             "WHERE lp.studentEmail = :email " +
             "AND lp.lecture.section.course.id = :courseId " +
             "AND lp.completed = true")
     int countCompletedLecturesInCourse(@Param("email") String studentEmail, @Param("courseId") Long courseId);
+=======
+    @Query("select count(lp) from LectureProgress lp " +
+            "where lp.studentEmail = : email" +
+            "and lp.lecture.section.courseId = :courseId" +
+            "and lp.completed = :true")
+    int countCompletedLecturesInCourse(@Param("email") String studentEmail,
+                                       @Param("courseId") Long CourseId);
+>>>>>>> c85368aab4ccea7364855d8cb229bc169ca3ef19
 
     // get all the course with progress
     @Query("SELECT DISTINCT lp.lecture.section.course.id FROM LectureProgress lp " +

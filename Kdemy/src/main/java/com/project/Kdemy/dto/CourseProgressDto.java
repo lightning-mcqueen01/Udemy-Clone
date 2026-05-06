@@ -15,8 +15,13 @@ public class CourseProgressDto {
 
     private Long lastLectureId;
     private String lastLectureTitle;
+<<<<<<< HEAD
     private Long lastWatchedSeconds;
     private Long lastLectureDuration;
+=======
+    private int lastWatchedSeconds;
+    private int lastLectureDuration;
+>>>>>>> c85368aab4ccea7364855d8cb229bc169ca3ef19
 
     private Long nextLectureId;
     private String nextLectureTitle;
