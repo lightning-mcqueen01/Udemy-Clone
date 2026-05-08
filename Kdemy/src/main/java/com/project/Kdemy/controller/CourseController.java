@@ -4,7 +4,6 @@ import com.project.Kdemy.dto.CourseRequestDto;
 import com.project.Kdemy.dto.CourseResponseDto;
 import com.project.Kdemy.model.Course;
 import com.project.Kdemy.service.CourseService;
-import com.project.Kdemy.service.ServiceImpl.CourseServiceImpl;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.http.ResponseEntity;
