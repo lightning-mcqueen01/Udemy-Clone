@@ -11,11 +11,7 @@ public interface LectureProgressService {
     public LectureProgress updateProgress(
             Long lectureId,
             String studentEmail,
-<<<<<<< HEAD
             Long watchedSeconds,
-=======
-            int watchedSeconds,
->>>>>>> c85368aab4ccea7364855d8cb229bc169ca3ef19
             boolean completed);
 
     CourseProgressDto getCourseProgress(String name, Long courseId);

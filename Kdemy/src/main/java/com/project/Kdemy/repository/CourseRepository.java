@@ -6,24 +6,19 @@ import org.jspecify.annotations.Nullable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
-<<<<<<< HEAD
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-
-@Repository
-=======
-
 import java.util.List;
 
->>>>>>> c85368aab4ccea7364855d8cb229bc169ca3ef19
+@Repository
 public interface CourseRepository extends JpaRepository<Course, Long> {
 
     @Nullable List<Course> findByStatus(CourseStatus status);
 
-<<<<<<< HEAD
+
     @Query("SELECT c FROM Course c " +
             "WHERE (:query IS NULL OR " +
             "      LOWER(c.title) LIKE LOWER(CONCAT('%', :query, '%')) OR " +
@@ -63,9 +58,7 @@ public interface CourseRepository extends JpaRepository<Course, Long> {
     )
     List<Course> findTrendingCourses();
 
-=======
 //    Page<Course> findByTitleContainingIgnoreCaseAndPublishedTrue(
 //            String keyword, Pageable pageable);
->>>>>>> c85368aab4ccea7364855d8cb229bc169ca3ef19
 
 }
